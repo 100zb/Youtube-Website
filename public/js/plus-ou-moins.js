@@ -66,7 +66,7 @@ choices.addEventListener("click", async (event) => {
 
   // On prépare déjà la vidéo suivante pendant l'animation
   const next = result.correct
-    ? api(`/api/random?count=1&near=${right.id}&exclude=${seen.join(",")}`).catch(() => ({ videos: [] }))
+    ? api(`/api/random?count=1&near=${right.id}&streak=${score + 1}&exclude=${seen.join(",")}`).catch(() => ({ videos: [] }))
     : null;
 
   choices.hidden = true;

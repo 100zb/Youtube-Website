@@ -89,7 +89,7 @@ npx wrangler deploy
 
 | Route | Rôle |
 | --- | --- |
-| `GET /api/random?count=N&exclude=id1,id2&mode=year&near=id` | N vidéos au hasard, sans vues ni date. `near` choisit une vidéo à écart de vues raisonnable (x1,25 à x12). |
+| `GET /api/random?count=N&exclude=id1,id2&mode=year&near=id` | N vidéos au hasard, sans vues ni date. `near` choisit une vidéo aux vues proches ; `streak` (la série en cours) resserre l'écart : x2,5 max, puis x1,8 dès 5, puis x1,4 dès 10. |
 | `GET /api/duel/start` | Première paire de « Plus ou moins » (seules les vues de gauche sont envoyées). |
 | `POST /api/check` | Vérifie une réponse et renvoie seulement alors la vraie valeur. |
 | `POST /admin/sync` | Lance une tranche d'import (header `Authorization: Bearer ADMIN_TOKEN`). |

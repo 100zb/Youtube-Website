@@ -3,9 +3,15 @@
 // que le joueur ait répondu : il faut passer par POST /api/check.
 
 const PUBLIC_FIELDS = "id, title, channel, thumbnail";
-// Pour "Plus ou moins" : écart de vues ni trop serré (< x1,25) ni ridicule (> x12)
-const MIN_RATIO = 1.25;
-const MAX_RATIO = 12;
+// Pour "Plus ou moins" : écart de vues maximum entre les deux vidéos.
+// Plus la série est longue, plus l'écart est petit (donc plus c'est dur).
+// Au moins x1,05 pour éviter deux vidéos presque à égalité.
+const MIN_RATIO = 1.05;
+function maxRatioFor(streak) {
+  if (streak < 5) return 2.5;
+  if (streak < 10) return 1.8;
+  return 1.4;
+}
 const FIRST_YEAR = 2010;
 
 export async function handleApi(request, env, url) {
@@ -17,11 +23,12 @@ export async function handleApi(request, env, url) {
     const exclude = parseIds(url.searchParams.get("exclude"));
     const mode = url.searchParams.get("mode");
     const near = url.searchParams.get("near");
+    const streak = Number(url.searchParams.get("streak")) || 0;
 
     const videos = [];
     for (let i = 0; i < count; i++) {
       let video = null;
-      if (near) video = await pickNear(db, near, exclude);
+      if (near) video = await pickNear(db, near, exclude, streak);
       if (!video) video = await pickRandom(db, exclude, mode === "year" ? yearFilter() : null);
       if (!video) break;
       videos.push(video);
@@ -35,7 +42,7 @@ export async function handleApi(request, env, url) {
     const left = await pickRandom(db, exclude, null, true);
     if (!left) return json({ error: "Pas assez de vidéos en base" }, 503);
     exclude.push(left.id);
-    const right = (await pickNear(db, left.id, exclude)) || (await pickRandom(db, exclude));
+    const right = (await pickNear(db, left.id, exclude, 0)) || (await pickRandom(db, exclude));
     if (!right) return json({ error: "Pas assez de vidéos en base" }, 503);
     return json({ left, right });
   }
@@ -83,15 +90,20 @@ async function pickRandom(db, exclude, filter = null, withViews = false) {
   );
 }
 
-// Une vidéo dont les vues ne sont ni trop proches ni trop éloignées de celles de refId
-async function pickNear(db, refId, exclude) {
+// Une vidéo dont les vues sont proches de celles de refId.
+// Si aucune vidéo ne correspond, on élargit petit à petit l'écart autorisé.
+async function pickNear(db, refId, exclude, streak) {
   const ref = await getVideo(db, refId);
   if (!ref) return null;
   const v = ref.views;
-  return pickRandom(db, exclude, {
-    sql: "(views BETWEEN ? AND ? OR views BETWEEN ? AND ?)",
-    params: [Math.round(v * MIN_RATIO), Math.round(v * MAX_RATIO), Math.round(v / MAX_RATIO), Math.round(v / MIN_RATIO)],
-  });
+  for (const max of [maxRatioFor(streak), 3, 6]) {
+    const video = await pickRandom(db, exclude, {
+      sql: "(views BETWEEN ? AND ? OR views BETWEEN ? AND ?)",
+      params: [Math.round(v * MIN_RATIO), Math.round(v * max), Math.round(v / max), Math.round(v / MIN_RATIO)],
+    });
+    if (video) return video;
+  }
+  return null;
 }
 
 function yearFilter() {
