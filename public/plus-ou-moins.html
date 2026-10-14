@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plus ou moins · Devine la Vidéo</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <a class="logo" href="/">← Devine la <span>Vidéo</span></a>
+      <div class="stats">
+        <span class="pill">Série : <strong id="score">0</strong></span>
+        <span class="pill">Record : <strong id="best">0</strong></span>
+      </div>
+    </header>
+
+    <p class="message" id="loading">Chargement…</p>
+
+    <section class="duel" id="game" hidden>
+      <article class="card" id="left">
+        <a class="thumb" target="_blank" rel="noopener"><img alt=""></a>
+        <div class="card-body">
+          <p class="card-title"></p>
+          <p class="card-channel"></p>
+          <div class="views"></div>
+        </div>
+      </article>
+
+      <div class="vs">VS</div>
+
+      <article class="card" id="right">
+        <a class="thumb" target="_blank" rel="noopener"><img alt=""></a>
+        <div class="card-body">
+          <p class="card-title"></p>
+          <p class="card-channel"></p>
+          <div class="views" aria-live="polite"></div>
+          <p class="question" id="question">a plus ou moins de vues ?</p>
+          <div class="buttons" id="choices">
+            <button class="btn btn-plus" data-guess="plus">▲ Plus</button>
+            <button class="btn btn-moins" data-guess="moins">▼ Moins</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel" id="over" hidden>
+      <h2 id="over-title">Perdu !</h2>
+      <p class="message">Ta série</p>
+      <div class="big-score" id="final-score">0</div>
+      <p class="message" id="best-msg"></p>
+      <div class="buttons">
+        <button class="btn btn-primary" id="replay">Rejouer</button>
+        <a class="btn" href="/" style="text-align:center;text-decoration:none">Accueil</a>
+      </div>
+    </section>
+  </main>
+  <script src="/js/common.js"></script>
+  <script src="/js/plus-ou-moins.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "devine-la-video",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./public"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "youtube-game",
+      "database_id": "REMPLACE_PAR_TON_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "triggers": {
+    "crons": ["17 4 * * *"]
+  },
+  "vars": {
+    // Nombre max d'appels à l'API YouTube par exécution.
+    // Plan gratuit Workers : 50 requêtes externes max -> garder 45.
+    // Plan payant : tu peux monter à 2000 pour tout faire en un run.
+    "MAX_API_CALLS": "45"
+  },
+  "observability": { "enabled": true }
+}

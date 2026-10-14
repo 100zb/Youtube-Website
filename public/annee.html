@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Devine l'année · Devine la Vidéo</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <a class="logo" href="/">← Devine la <span>Vidéo</span></a>
+      <div class="stats">
+        <span class="pill">Manche <strong id="round">1</strong>/<span id="total">10</span></span>
+        <span class="pill">Score : <strong id="score">0</strong></span>
+      </div>
+    </header>
+
+    <p class="message" id="loading">Chargement…</p>
+
+    <section class="round-card" id="game" hidden>
+      <article class="card" id="video">
+        <a class="thumb" target="_blank" rel="noopener"><img alt=""></a>
+        <div class="card-body">
+          <p class="card-title"></p>
+          <p class="card-channel"></p>
+
+          <label for="year" class="question">En quelle année est sortie cette vidéo ?</label>
+          <p class="year-value" id="year-value">2018</p>
+          <input type="range" id="year" min="2010" step="1">
+          <div class="slider-labels"><span>2010</span><span id="max-label"></span></div>
+
+          <p class="result" id="result" aria-live="polite"></p>
+          <div class="buttons">
+            <button class="btn btn-primary" id="validate">Valider</button>
+            <button class="btn btn-primary" id="next" hidden>Suivante →</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel" id="over" hidden>
+      <h2>Partie terminée</h2>
+      <div class="big-score"><span id="final-score">0</span> / <span id="final-max">50</span></div>
+      <div class="emojis" id="emojis"></div>
+      <p class="message" id="best-msg"></p>
+      <div class="buttons">
+        <button class="btn btn-primary" id="share">Partager</button>
+        <button class="btn" id="replay">Rejouer</button>
+      </div>
+      <p class="toast" id="toast" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="/js/common.js"></script>
+  <script src="/js/annee.js"></script>
+</body>
+</html>

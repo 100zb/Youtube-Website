@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Devine la Vidéo</title>
+  <meta name="description" content="Jeux autour des vidéos des gros YouTubeurs français.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <h1 class="logo">Devine la <span>Vidéo</span></h1>
+      <p>Squeezie, Cyprien, Norman, Inoxtag… Connais-tu vraiment les vidéos des gros YouTubeurs français ?</p>
+    </section>
+
+    <section class="modes">
+      <a class="mode" href="/plus-ou-moins">
+        <div class="icon">⚖️</div>
+        <h2>Plus ou moins</h2>
+        <p>Cette vidéo a-t-elle plus ou moins de vues que l'autre ? Enchaîne la plus longue série.</p>
+        <span class="pill">Record : <strong id="best-duel">0</strong></span>
+      </a>
+      <a class="mode" href="/annee">
+        <div class="icon">📅</div>
+        <h2>Devine l'année</h2>
+        <p>Retrouve l'année de sortie de 10 vidéos. Jusqu'à 5 points par manche.</p>
+        <span class="pill">Record : <strong id="best-year">0</strong> / 50</span>
+      </a>
+    </section>
+  </main>
+  <script src="/js/common.js"></script>
+  <script>
+    document.getElementById("best-duel").textContent = getBest("best-duel");
+    document.getElementById("best-year").textContent = getBest("best-year");
+  </script>
+</body>
+</html>
