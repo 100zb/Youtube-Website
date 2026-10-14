@@ -65,8 +65,7 @@ découpé : chaque appel fait au plus `MAX_API_CALLS` (45) requêtes YouTube et 
 s'est arrêté. Répète jusqu'à `"done": true` :
 
 ```bash
-URL=https://devine-la-video.<ton-compte>.workers.dev   # ou http://localhost:8787
-until curl -s -X POST -H "Authorization: Bearer $ADMIN_TOKEN" $URL/admin/sync | tee /dev/stderr | grep -q '"done":true'; do sleep 2; done
+node scripts/import.js https://devine-la-video.<ton-compte>.workers.dev TON_ADMIN_TOKEN
 ```
 
 Avec le plan payant Workers, tu peux mettre `MAX_API_CALLS` à `2000` dans `wrangler.jsonc` pour tout faire en un appel.
